@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#07141c" />
+  <title>Dragon City — Neon Run</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main id="game-shell">
+    <canvas id="game" aria-label="Dragon City 3D driving game"></canvas>
+    <div class="vignette"></div>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Dragon City home"><span class="brand-mark">D</span><span>DRAGON<span class="brand-light">CITY</span><small>NEON DISTRICT · 01</small></span></a>
+      <div class="top-center"><span class="live-dot"></span><span id="district-label">NIGHT DRIVE</span><i></i><span id="clock">21:48</span></div>
+      <button class="icon-button" id="sound-btn" aria-label="Toggle sound"><span id="sound-icon">♪</span></button>
+    </header>
+
+    <section class="mission-card" aria-label="Current mission">
+      <div class="mission-kicker"><span class="mission-icon">✦</span> ACTIVE CONTRACT <span class="mission-num">01 / 03</span></div>
+      <div class="mission-title" id="mission-title">THE NIGHT COURIER</div>
+      <div class="mission-copy" id="mission-copy">Pick up the dragon egg. The city is yours.</div>
+      <div class="mission-footer"><span class="target-dot"></span><span id="target-name">EMBER MARKET</span><span class="mission-distance" id="distance">— m</span></div>
+      <div class="mission-progress"><span id="progress-fill"></span></div>
+    </section>
+
+    <div class="right-stack">
+      <div class="map-card"><div class="map-heading"><span>DRAGON CITY</span><span class="map-live">LIVE <b></b></span></div><canvas id="minimap" width="180" height="180"></canvas><div class="map-legend"><span><i class="you-dot"></i> YOU</span><span><i class="goal-dot"></i> GOAL</span></div></div>
+      <div class="rep-card"><span class="rep-label">STREET REP</span><div class="rep-value"><span id="rep">008</span><small>XP</small></div><div class="rep-bar"><i id="rep-fill"></i></div></div>
+    </div>
+
+    <div class="speed-card"><div class="speed-ring"><svg viewBox="0 0 100 100"><circle class="ring-bg" cx="50" cy="50" r="43"/><circle class="ring-fill" id="speed-arc" cx="50" cy="50" r="43"/></svg><div class="speed-inner"><strong id="speed">000</strong><small>KM/H</small></div></div><div class="gear"><span>GEAR</span><b id="gear">1</b></div></div>
+    <div class="boost-meter"><div class="boost-label"><span>⚡ NITRO</span><span id="boost-label">READY</span></div><div class="boost-track"><i id="boost-fill"></i></div></div>
+
+    <div class="direction-hint" id="direction-hint"><span>↑</span><div><b>FOLLOW THE GLOW</b><small>Waypoint ahead · <span id="hint-distance">—</span></small></div></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="controls" aria-label="Driving controls">
+      <div class="steer-controls"><button class="control-btn steer" data-control="left" aria-label="Steer left">‹</button><button class="control-btn steer" data-control="right" aria-label="Steer right">›</button></div>
+      <div class="drive-controls"><button class="control-btn boost" data-control="boost" aria-label="Nitro boost"><span>⚡</span><small>NITRO</small></button><button class="control-btn brake" data-control="brake" aria-label="Brake and reverse"><span>−</span><small>BRAKE</small></button><button class="control-btn gas" data-control="gas" aria-label="Accelerate"><span>↑</span><small>DRIVE</small></button></div>
+    </div>
+
+    <div class="help-tip"><kbd>WASD</kbd> DRIVE <kbd>SPACE</kbd> NITRO <kbd>R</kbd> RESET</div>
+    <div class="mission-complete" id="complete"><div class="complete-card"><div class="complete-spark">✦</div><div class="complete-eyebrow">CONTRACT COMPLETE</div><h1>RUN THE<br><em>DRAGON</em></h1><p id="complete-copy">The streets remember your name.</p><div class="reward">+250 <small>STREET REP</small></div><button id="continue-btn">KEEP THE CITY MOVING <span>→</span></button></div></div>
+    <div class="pause-overlay" id="paused"><div><span>DRAGON CITY</span><h2>TAKE A BREATHER</h2><p>Your ride is waiting.</p><button id="resume-btn">BACK TO THE STREETS</button><small>Press <kbd>ESC</kbd> to resume</small></div></div>
+    <button class="pause-button" id="pause-btn" aria-label="Pause game">Ⅱ</button>
+    <div class="screen-flash" id="flash"></div>
+  </main>
+  <script type="module" src="game.js"></script>
+</body>
+</html>
