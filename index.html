@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#090b16">
+  <title>NEON RIFT — Anime Arena</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="game-shell">
+    <canvas id="arena" aria-label="Neon Rift 3D anime fighting game"></canvas>
+    <div class="scanlines" aria-hidden="true"></div>
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Neon Rift home"><span class="brand-mark">N</span><span>NEON<span class="brand-dim">/</span>RIFT</span></a>
+      <div class="season"><i></i> SEASON 01 <span>·</span> THE SHATTERED SKY</div>
+      <button id="soundBtn" class="sound-btn" aria-label="Toggle sound">♫ <span>SOUND ON</span></button>
+    </header>
+    <section class="hud" aria-label="Match status">
+      <div class="fighter-card left-card"><div class="fighter-meta"><span class="fighter-label">01 / THE EXILE</span><span class="fighter-name">AKARI</span></div><div class="health-shell"><div class="health-fill player-health"></div><div class="health-glint"></div></div><div class="energy-shell"><div class="energy-fill player-energy"></div></div><div class="round-dots"><b class="won"></b><b></b><span>VANGUARD</span></div></div>
+      <div class="match-center"><div class="round-label">RIFT CLASH <span>—</span> ROUND 01</div><div id="timer" class="timer">99</div><div id="matchState" class="match-state">PRESS ENTER TO FIGHT</div></div>
+      <div class="fighter-card right-card"><div class="fighter-meta"><span class="fighter-label">02 / VOID WALKER</span><span class="fighter-name">KAIRO</span></div><div class="health-shell"><div class="health-fill enemy-health"></div><div class="health-glint"></div></div><div class="energy-shell"><div class="energy-fill enemy-energy"></div></div><div class="round-dots"><span>RONIN</span><b></b><b class="won"></b></div></div>
+    </section>
+    <div class="round-callout" id="callout"><span>READY?</span></div>
+    <div class="combo-readout" id="combo"></div>
+    <div class="bottom-ui"><div class="tip"><span class="tip-icon">✦</span><span id="tipText">A new world is waiting beyond the rift.</span></div><button id="helpBtn" class="help-btn">HOW TO PLAY <span>↗</span></button></div>
+    <div class="help-panel" id="helpPanel"><button id="closeHelp" aria-label="Close help">×</button><div class="eyebrow">BATTLE GUIDE</div><h2>Make your move.</h2><p>Read the rhythm. Break their guard. Own the arena.</p><div class="key-grid"><div><kbd>A</kbd><kbd>D</kbd><span>Move</span></div><div><kbd>W</kbd><span>Jump</span></div><div><kbd>J</kbd><span>Quick strike</span></div><div><kbd>K</kbd><span>Heavy strike</span></div><div><kbd>L</kbd><span>Rift special</span></div><div><kbd>S</kbd><span>Guard</span></div><div><kbd>SPACE</kbd><span>Dash</span></div></div><button class="start-help" id="startHelp">LET'S FIGHT <span>→</span></button></div>
+    <div class="touch-controls" aria-label="Touch controls"><div class="touch-move"><button data-key="a">◀</button><button data-key="d">▶</button></div><div class="touch-actions"><button data-key="s" class="guard">GUARD</button><button data-key="j">JAB</button><button data-key="k">HEAVY</button><button data-key="l" class="special">RIFT</button></div></div>
+    <div class="result-screen" id="result"><div class="result-kicker">RIFT CLASH · ROUND 01</div><h1 id="resultTitle">VICTORY</h1><p id="resultSub">The rift remembers.</p><button id="rematch">REMATCH <span>↻</span></button></div>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
