@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0e1626" />
+  <meta name="description" content="Blockstrike Arena - a blocky 3D multiplayer shooter. Suit up, pick your skins, and battle bots and friends in a colorful voxel arena." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23ffd447'/%3E%3Ctext x='32' y='47' font-size='44' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%235a3500'%3EB%3C/text%3E%3C/svg%3E" />
+  <title>Blockstrike Arena · 3D Block Shooter</title>
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <div id="app">
+    <canvas id="gameCanvas" aria-label="Blockstrike Arena 3D game"></canvas>
+
+    <div id="loading" class="screen">
+      <div class="loader-logo"><span class="cube">B</span><span>BLOCKSTRIKE</span></div>
+      <div class="loader-bar"><i></i></div>
+      <p>Building the arena…</p>
+    </div>
+
+    <div id="menu" class="screen hidden">
+      <div class="menu-nav">
+        <div class="brand"><span class="brand-mark">B</span><span>BLOCKSTRIKE <em>ARENA</em></span></div>
+        <div class="nav-right">
+          <div class="pill online"><span class="dot"></span><span id="menuOnline">ONLINE · 9 PLAYERS</span></div>
+          <div class="pill coins"><span class="coin-icon">◈</span><span id="menuCoins">300</span></div>
+        </div>
+      </div>
+
+      <div class="menu-hero">
+        <div class="hero-copy">
+          <div class="eyebrow">FREE-FOR-ALL · BLOCKY COMBAT</div>
+          <h1>BUILD.<br/><span>SHOOT.</span><br/>DOMINATE.</h1>
+          <p class="hero-desc">Drop into a colorful voxel arena with eight rival block-heads. Customize your character, your guns, and your gear. First to 20 wins the round.</p>
+          <div class="hero-buttons">
+            <button id="playBtn" class="btn btn-primary btn-lg">▶ PLAY NOW <small>ENTER THE ARENA</small></button>
+            <button id="customizeBtn" class="btn btn-lg">◈ CUSTOMIZE</button>
+            <button id="howBtn" class="btn btn-ghost">? HOW TO PLAY</button>
+          </div>
+          <div class="hero-stats">
+            <div><b id="statKills">0</b><span>TOTAL KILLS</span></div>
+            <div><b id="statWins">0</b><span>ARENA WINS</span></div>
+            <div><b id="statBest">0</b><span>BEST STREAK</span></div>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="card-tag">YOUR LOADOUT</div>
+          <div class="loadout-avatar" id="loadoutAvatar"><div class="block-head"><i></i><i></i></div><div class="block-body"></div><div class="block-arms"></div><div class="block-legs"></div></div>
+          <div class="loadout-info">
+            <div class="loadout-name" id="loadoutSkinName">Classic Noob</div>
+            <div class="loadout-sub" id="loadoutGunName">AR-7 Blaster · Factory</div>
+            <div class="loadout-bar"><i></i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-footer">
+        <span>WASD MOVE · MOUSE AIM · CLICK FIRE · SHIFT SPRINT · SPACE JUMP · 1-4 SWITCH · R RELOAD · TAB SCORE</span>
+        <span class="footer-tag">MADE FOR THE BLOCK</span>
+      </div>
+    </div>
+
+    <div id="hud" class="hidden">
+      <div class="hud-top">
+        <div class="match-info">
+          <div class="match-tag">FREE FOR ALL</div>
+          <div class="match-time" id="matchTime">05:00</div>
+          <div class="match-progress"><i id="matchProgress"></i></div>
+        </div>
+        <div class="top-score">
+          <div class="score-you"><span>YOU</span><b id="hudKills">0</b></div>
+          <div class="score-sep">/</div>
+          <div class="score-target"><span>TO WIN</span><b>20</b></div>
+        </div>
+        <div class="leaderboard" id="leaderboardMini"></div>
+      </div>
+
+      <div class="killfeed" id="killfeed"></div>
+
+      <div class="crosshair" id="crosshair">
+        <i class="ch top"></i><i class="ch bottom"></i><i class="ch left"></i><i class="ch right"></i>
+        <i class="ch dot"></i>
+        <div class="hitmarker" id="hitmarker">✕</div>
+      </div>
+
+      <div class="scope-overlay" id="scopeOverlay"><i></i><i></i></div>
+      <div class="damage-vignette" id="damageVignette"></div>
+      <div class="low-health" id="lowHealth"></div>
+      <div class="kill-banner" id="killBanner"><b id="killBannerTitle">ELIMINATED!</b><span id="killBannerSub">+50 ◈</span></div>
+      <div class="respawn" id="respawn">
+        <div class="respawn-card">
+          <div class="respawn-skull">☠</div>
+          <div class="respawn-title">WIPED OUT</div>
+          <div class="respawn-sub">Respawning in <b id="respawnTime">3</b>…</div>
+          <div class="respawn-tip" id="respawnTip">Tip: Use the crates for cover.</div>
+        </div>
+      </div>
+
+      <div class="hud-bottom">
+        <div class="health-panel">
+          <div class="hp-row"><span class="hp-icon">✚</span><b id="healthValue">100</b><span class="hp-max">/ 100</span></div>
+          <div class="hp-bar"><i id="healthBar"></i></div>
+          <div class="hp-label">HEALTH</div>
+        </div>
+
+        <div class="weapon-slots" id="weaponSlots"></div>
+
+        <div class="ammo-panel">
+          <div class="ammo-name" id="ammoWeapon">AR-7 BLASTER</div>
+          <div class="ammo-skin" id="ammoSkin">FACTORY ISSUE</div>
+          <div class="ammo-row"><b id="ammoCurrent">30</b><span>/</span><span id="ammoReserve">180</span></div>
+          <div class="reload-bar" id="reloadBar"><i></i></div>
+          <div class="reload-hint" id="reloadHint">R TO RELOAD</div>
+        </div>
+      </div>
+
+      <div class="hud-hint" id="hudHint">B · CUSTOMIZE &nbsp; TAB · SCOREBOARD &nbsp; ESC · PAUSE</div>
+      <div class="pickup-toast" id="pickupToast"></div>
+    </div>
+
+    <div id="touchControls" class="hidden">
+      <div class="touch-move" id="touchMove"><div class="stick" id="touchStick"></div></div>
+      <div class="touch-look" id="touchLook"></div>
+      <div class="touch-buttons">
+        <button class="tbtn tbtn-small" id="touchJump">JUMP</button>
+        <button class="tbtn tbtn-small" id="touchReload">RLD</button>
+        <button class="tbtn tbtn-small" id="touchSwap">SWAP</button>
+        <button class="tbtn tbtn-small" id="touchAim">AIM</button>
+        <button class="tbtn tbtn-fire" id="touchFire">FIRE</button>
+      </div>
+    </div>
+
+    <div id="scoreboard" class="overlay hidden">
+      <div class="modal scoreboard-modal">
+        <div class="modal-head"><h2>SCOREBOARD</h2><span id="scoreboardTime">05:00 REMAINING</span></div>
+        <div class="score-table"><div class="score-row score-head"><span>#</span><span>PLAYER</span><span>KILLS</span><span>DEATHS</span><span>STREAK</span></div><div id="scoreRows"></div></div>
+        <div class="modal-foot">HOLD TAB TO VIEW · RELEASE TO RETURN</div>
+      </div>
+    </div>
+
+    <div id="customize" class="overlay hidden">
+      <div class="modal customize-modal">
+        <div class="modal-head">
+          <div><h2>CUSTOMIZE</h2><p>Make your block look like you.</p></div>
+          <div class="cust-coins"><span>◈</span><b id="custCoins">300</b><small>COINS</small></div>
+          <button class="close-btn" id="closeCustomize">✕</button>
+        </div>
+        <div class="cust-tabs">
+          <button class="cust-tab active" data-tab="avatar">AVATAR</button>
+          <button class="cust-tab" data-tab="gun">GUN SKINS</button>
+          <button class="cust-tab" data-tab="melee">MELEE</button>
+          <button class="cust-tab" data-tab="grenade">GRENADES</button>
+        </div>
+        <div class="cust-body">
+          <div class="preview-pane">
+            <canvas id="previewCanvas"></canvas>
+            <div class="preview-label" id="previewLabel">CLASSIC NOOB</div>
+            <div class="preview-sub" id="previewSub">Starter avatar</div>
+          </div>
+          <div class="skin-pane">
+            <div class="skin-grid" id="skinGrid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="how" class="overlay hidden">
+      <div class="modal how-modal">
+        <div class="modal-head"><h2>HOW TO PLAY</h2><button class="close-btn" id="closeHow">✕</button></div>
+        <div class="how-grid">
+          <div><b>WASD</b><span>Move around the arena</span></div>
+          <div><b>MOUSE</b><span>Aim your camera</span></div>
+          <div><b>LEFT CLICK</b><span>Fire your weapon</span></div>
+          <div><b>RIGHT CLICK</b><span>Aim down sights</span></div>
+          <div><b>SHIFT</b><span>Sprint faster</span></div>
+          <div><b>SPACE</b><span>Jump onto cover</span></div>
+          <div><b>1 – 4 / SCROLL</b><span>Switch weapons</span></div>
+          <div><b>R</b><span>Reload your weapon</span></div>
+          <div><b>V</b><span>Swing your melee</span></div>
+          <div><b>G</b><span>Throw a grenade</span></div>
+          <div><b>B</b><span>Open customization</span></div>
+          <div><b>TAB / ESC</b><span>Score / pause</span></div>
+        </div>
+        <p class="how-note">Tips: headshots deal double damage. Grab glowing health crates to stay alive. Earn coins for every kill and unlock new skins. Open the game in two browser tabs to play with a friend — players sync across tabs!</p>
+      </div>
+    </div>
+
+    <div id="pause" class="overlay hidden">
+      <div class="modal pause-modal">
+        <h2>PAUSED</h2>
+        <p>Take a breath, block-head.</p>
+        <button id="resumeBtn" class="btn btn-primary btn-lg">RESUME</button>
+        <button id="pauseCustomizeBtn" class="btn btn-lg">CUSTOMIZE LOADOUT</button>
+        <button id="quitBtn" class="btn btn-ghost">QUIT TO MENU</button>
+      </div>
+    </div>
+
+    <div id="matchEnd" class="overlay hidden">
+      <div class="modal end-modal">
+        <div class="end-crown">♛</div>
+        <h2 id="endTitle">MATCH OVER</h2>
+        <p id="endSub">Nice shooting, block-head.</p>
+        <div class="end-results" id="endResults"></div>
+        <div class="end-buttons">
+          <button id="rematchBtn" class="btn btn-primary btn-lg">PLAY AGAIN</button>
+          <button id="endCustomizeBtn" class="btn btn-lg">CUSTOMIZE</button>
+          <button id="endMenuBtn" class="btn btn-ghost">MAIN MENU</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
